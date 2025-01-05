@@ -4,9 +4,12 @@ project(Tag-Game VERSION 0.1.0 LANGUAGES C CXX)
 include(CTest)
 enable_testing()
 
-find_package(glfw3 3.4 REQUIRED)
+add_subdirectory(Stitch)
 
-add_executable(Tag-Game src/main.cpp Stitch/Stitch/Core/display.h Stitch/Stitch/Core/display.cpp)
-target_link_libraries(Tag-Game GL glfw)
+include_directories(Stitch/include)
+include_directories(Stitch/Stitch/vendor/glew-2.2.0/include)
+
+add_executable(Tag-Game src/main.cpp)
+target_link_libraries(Tag-Game stitch)
 
 set_property(TARGET Tag-Game PROPERTY CXX_STANDARD 23)
