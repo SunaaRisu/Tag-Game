@@ -31,8 +31,8 @@ int main() {
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferObject);
   glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
-  Shader shader("res/shaders/basic.shader");
-  shader.Bind();
+  Shader basicShader("res/shaders/basic.shader");
+  basicShader.Bind();
   
   while (!display.IsClosed()) {
     display.Clear(0.1f, 0.1f, 0.1f, 1.0f);
