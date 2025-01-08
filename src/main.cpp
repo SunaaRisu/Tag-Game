@@ -1,7 +1,23 @@
 #include <Stitch/stitch.h>
+#include <iostream>
 
 #define WIDTH 1080
 #define HEIGHT 1080
+
+#define ASSERT(x) if (!(x)) __builtin_trap();
+#define GLCall(x) GLClearError();x;ASSERT(GLLogCall(#x, __FILE__, __LINE__));
+
+static void GLClearError() {
+  while (glGetError());
+}
+
+static bool GLLogCall(const char* function, const char* file, int line) {
+  while (GLenum error = glGetError()) {
+    std::cout << "[OpenGL Error] (" << error << "): " << function << " " << file << ":" << line << std::endl;
+    return false;
+  }
+  return true;
+}
 
 int main() {
   Display display(WIDTH, HEIGHT, "Tag-Game");
@@ -36,8 +52,8 @@ int main() {
   
   while (!display.IsClosed()) {
     display.Clear(0.1f, 0.1f, 0.1f, 1.0f);
-
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+    
+    GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
 
     display.Update();
   }
