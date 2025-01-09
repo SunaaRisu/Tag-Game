@@ -49,11 +49,26 @@ int main() {
 
   Shader basicShader("res/shaders/basic.shader");
   basicShader.Bind();
-  
+
+  int location = basicShader.GetUniformLocation("u_Color");
+  ASSERT(location != -1);
+  GLCall(glUniform4f(location, 1.0f, 0.0f, 1.0f, 1.0f));
+ 
+  float r = 0.0f;
+  float increment = 0.05f;
+
   while (!display.IsClosed()) {
     display.Clear(0.1f, 0.1f, 0.1f, 1.0f);
     
+    GLCall(glUniform4f(location, r, 0.0f, 1.0f, 1.0f));
     GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
+
+    if (r > 1.0f)
+      increment = -0.05f;
+    else if (r < 0.0f)
+      increment = 0.05f;
+
+    r += increment;
 
     display.Update();
   }
