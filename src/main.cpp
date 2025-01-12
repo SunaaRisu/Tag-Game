@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "VertexArray.h"
 
 #define WIDTH 1080
 #define HEIGHT 1080
@@ -25,10 +26,12 @@ int main() {
   GLCall(glGenVertexArrays(1, &vertexArrayObject));
   GLCall(glBindVertexArray(vertexArrayObject));
 
+  VertexArray va;
   VertexBuffer vb(positions, 4 * 2 * sizeof(float));
 
-  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
-  glEnableVertexAttribArray(0);
+  VertexBufferLayout layout;
+  layout.Push(GL_FLOAT, 2);
+  va.AddBuffer(vb, layout);
 
   IndexBuffer ib(indices, 6);
 
@@ -47,7 +50,7 @@ int main() {
     
     GLCall(glUniform4f(location, r, 0.0f, 1.0f, 1.0f));
 
-    GLCall(glBindVertexArray(vertexArrayObject));
+    va.Bind();
     ib.Bind(); 
 
     GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));
