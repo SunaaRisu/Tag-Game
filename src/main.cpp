@@ -22,15 +22,11 @@ int main() {
     2, 3, 0
   };
 
-  unsigned int vertexArrayObject;
-  GLCall(glGenVertexArrays(1, &vertexArrayObject));
-  GLCall(glBindVertexArray(vertexArrayObject));
-
   VertexArray va;
   VertexBuffer vb(positions, 4 * 2 * sizeof(float));
 
   VertexBufferLayout layout;
-  layout.Push(GL_FLOAT, 2);
+  layout.Push<float>(2);
   va.AddBuffer(vb, layout);
 
   IndexBuffer ib(indices, 6);
