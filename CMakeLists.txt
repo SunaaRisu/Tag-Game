@@ -9,7 +9,7 @@ add_subdirectory(Stitch)
 include_directories(Stitch/include)
 include_directories(Stitch/Stitch/vendor/glew-2.2.0/include)
 
-add_executable(Tag-Game src/main.cpp src/IndexBuffer.cpp src/IndexBuffer.h src/Renderer.cpp src/Renderer.h src/VertexBuffer.cpp src/VertexBuffer.h src/VertexArray.cpp src/VertexArray.h src/VertexBufferLayout.h)
+add_executable(Tag-Game src/main.cpp src/IndexBuffer.cpp src/IndexBuffer.h src/Renderer.cpp src/Renderer.h src/VertexBuffer.cpp src/VertexBuffer.h src/VertexArray.cpp src/VertexArray.h src/VertexBufferLayout.h src/ShaderCherno.cpp src/ShaderCherno.h)
 target_link_libraries(Tag-Game stitch)
 
 set_property(TARGET Tag-Game PROPERTY CXX_STANDARD 23)

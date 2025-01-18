@@ -3,6 +3,7 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "VertexArray.h"
+#include "ShaderCherno.h"
 
 #define WIDTH 1080
 #define HEIGHT 1080
@@ -31,12 +32,14 @@ int main() {
 
   IndexBuffer ib(indices, 6);
 
-  Shader basicShader("res/shaders/basic.shader");
+  ShaderCherno basicShader("res/shaders/basic.shader");
   basicShader.Bind();
+  basicShader.SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
 
-  int location = basicShader.GetUniformLocation("u_Color");
-  ASSERT(location != -1);
-  GLCall(glUniform4f(location, 1.0f, 0.0f, 1.0f, 1.0f));
+  va.Unbind();
+  vb.Unbind();
+  ib.Unbind();
+  basicShader.Unbind();
  
   float r = 0.0f;
   float increment = 0.05f;
@@ -44,7 +47,8 @@ int main() {
   while (!display.IsClosed()) {
     display.Clear(0.1f, 0.1f, 0.1f, 1.0f);
     
-    GLCall(glUniform4f(location, r, 0.0f, 1.0f, 1.0f));
+    basicShader.Bind();
+    basicShader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
 
     va.Bind();
     ib.Bind(); 
@@ -60,6 +64,4 @@ int main() {
 
     display.Update();
   }
-
-  return 0;
 }
