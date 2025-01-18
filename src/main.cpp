@@ -3,7 +3,6 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "VertexArray.h"
-#include "ShaderCherno.h"
 
 #define WIDTH 1080
 #define HEIGHT 1080
@@ -32,7 +31,7 @@ int main() {
 
   IndexBuffer ib(indices, 6);
 
-  ShaderCherno basicShader("res/shaders/basic.shader");
+  Shader basicShader("res/shaders/basic.shader");
   basicShader.Bind();
   basicShader.SetUniform4f("u_Color", 0.8f, 0.3f, 0.8f, 1.0f);
 
