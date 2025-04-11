@@ -13,17 +13,17 @@
 #include "vendor/imGui/imgui_impl_glfw.h"
 #include "vendor/imGui/imgui_impl_opengl3.h"
 
-#define WIDTH 960  // 1080
-#define HEIGHT 540 // 1080
+#define WIDTH 1080 //960  // 1080
+#define HEIGHT 1080 //540 // 1080
 
 int main() {
   Display display(WIDTH, HEIGHT, "Tag-Game");
 
   float positions[] = {
-      100.0f, 100.0f, 0.0f, 0.0f, // 0
-      200.0f, 100.0f, 1.0f, 0.0f, // 1
-      200.0f, 200.0f, 1.0f, 1.0f, // 2
-      100.0f, 200.0f, 0.0f, 1.0   // 3
+      -50.0f, -50.0f, 0.0f, 0.0f, // 0
+       50.0f, -50.0f, 1.0f, 0.0f, // 1
+       50.0f,  50.0f, 1.0f, 1.0f, // 2
+      -50.0f,  50.0f, 0.0f, 1.0   // 3
   };
 
   unsigned int indices[] = {0, 1, 2, 2, 3, 0};
@@ -41,8 +41,8 @@ int main() {
 
   IndexBuffer ib(indices, 6);
 
-  glm::mat4 proj = glm::ortho(0.0f, 960.0f, 0.0f, 540.0f, -1.0f, 1.0f);
-  glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(-100, 0, 0));
+  glm::mat4 proj = glm::ortho(0.0f, static_cast<float>(WIDTH), 0.0f, static_cast<float>(HEIGHT), -1.0f, 1.0f);
+  glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0, 0, 0));
 
   Shader testShader("res/shaders/basic.shader");
   testShader.Bind();
@@ -69,7 +69,8 @@ int main() {
   ImGui_ImplOpenGL3_Init("#version 130"); // IMGUI STUFF
   ImGui::StyleColorsDark(); // IMGUI STUFF
 
-  glm::vec3 translation(200.0f, 200.0f, 0);
+  glm::vec3 translationA(200.0f, 200.0f, 0);
+  glm::vec3 translationB(400.0f, 200.0f, 0);
 
   float r = 0.0f;
   float increment = 0.05f;
@@ -81,19 +82,29 @@ int main() {
     ImGui_ImplGlfw_NewFrame(); // IMGUI STUFF
     ImGui::NewFrame(); // IMGUI STUFF
     
-    glm::mat4 model = glm::translate(glm::mat4(1.0f), translation);
-    glm::mat4 mvp = proj * view * model;
 
-    basicShader.SetUniformMat4f("u_MVP", mvp);
-    
-    basicShader.Bind();
-    basicShader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
+    {
+      glm::mat4 model = glm::translate(glm::mat4(1.0f), translationA);
+      glm::mat4 mvp = proj * view * model;
 
-    testShader.Bind();
-    testShader.SetUniform4f("u_Color", 1.0f, 0.0f, 0.0f, 0.5f);
+      basicShader.Bind();
+      basicShader.SetUniform4f("u_Color", r, 0.3f, 0.8f, 1.0f);
+      basicShader.SetUniformMat4f("u_MVP", mvp);
+     
+      renderer.Draw(va, ib, basicShader);
+    }
 
-    
-    renderer.Draw(va, ib, basicShader);
+
+    {
+      glm::mat4 model = glm::translate(glm::mat4(1.0f), translationB);
+      glm::mat4 mvp = proj * view * model;
+
+      basicShader.Bind();
+      basicShader.SetUniform4f("u_Color", 0.3f, r, 0.3f, 1.0f);
+      basicShader.SetUniformMat4f("u_MVP", mvp);
+      
+      renderer.Draw(va, ib, basicShader);
+    }
 
     if (r > 1.0f)
       increment = -0.05f;
@@ -103,7 +114,8 @@ int main() {
     r += increment;
 
     {// IMGUI STUFF
-        ImGui::SliderFloat3("Translation", &translation.x, 0.0f, 960.0f); // IMGUI STUFF
+        ImGui::SliderFloat3("Translation A", &translationA.x, 0.0f, static_cast<float>(WIDTH)); // IMGUI STUFF
+        ImGui::SliderFloat3("translation B", &translationB.x, 0.0f, static_cast<float>(WIDTH)); // IMGUI STUFF
     }
 
     ImGui::Render(); // IMGUI STUFF
