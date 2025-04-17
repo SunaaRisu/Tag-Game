@@ -1,7 +1,6 @@
 #pragma once
 
 #include "IndexBuffer.h"
-#include "VertexArray.h"
 #include <Stitch/stitch.h>
 
 #define ASSERT(x) if (!(x)) __builtin_trap();

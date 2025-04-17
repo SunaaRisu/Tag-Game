@@ -15,11 +15,6 @@ src/IndexBuffer.cpp
 src/IndexBuffer.h 
 src/Renderer.cpp 
 src/Renderer.h 
-src/VertexBuffer.cpp 
-src/VertexBuffer.h 
-src/VertexArray.cpp 
-src/VertexArray.h
-src/VertexBufferLayout.h 
 src/Texture.h 
 src/Texture.cpp 
 src/vendor/stb_image/stb_image.cpp 
