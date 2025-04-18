@@ -1,5 +1,3 @@
-#include "IndexBuffer.h"
-#include "Renderer.h"
 #include "Texture.h"
 #include <Stitch/stitch.h>
 
@@ -13,6 +11,8 @@
 #define WIDTH 1080 //960  // 1080
 #define HEIGHT 1080 //540 // 1080
 
+
+
 int main() {
   Display display(WIDTH, HEIGHT, "Tag-Game");
 
@@ -25,24 +25,15 @@ int main() {
 
   unsigned int indices[] = {0, 1, 2, 2, 3, 0};
 
-  GLCall(glEnable(GL_BLEND));
-  GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
   
   VertexBufferLayout layout;
   layout.Push<float>(2);
   layout.Push<float>(2);
 
-
-  //VertexArray va;
-  //VertexBuffer vb(positions, 4 * 4 * sizeof(float));
-  //va.AddBuffer(vb, layout);
-
-  //VertexBuffer vb(positions, 4 * 4 * sizeof(float));
-  //VertexArray va(vb, layout);
-
   VertexArray va(positions, 4 * 4 * sizeof(float), layout);
-
 
   IndexBuffer ib(indices, 6);
 

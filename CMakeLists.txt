@@ -11,12 +11,9 @@ include_directories(Stitch/Stitch/vendor/glew-2.2.0/include)
 
 add_executable(Tag-Game 
 src/main.cpp 
-src/IndexBuffer.cpp 
-src/IndexBuffer.h 
-src/Renderer.cpp 
-src/Renderer.h 
 src/Texture.h 
-src/Texture.cpp 
+src/Texture.cpp
+
 src/vendor/stb_image/stb_image.cpp 
 src/vendor/stb_image/stb_image.h 
 src/vendor/imGui/imconfig.h 
