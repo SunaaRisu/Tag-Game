@@ -1,17 +1,13 @@
 #include "Texture.h"
+
 #include <Stitch/stitch.h>
+#include <Stitch/gui.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "vendor/imGui/imgui.h"
-#include "vendor/imGui/imgui_impl_glfw.h"
-#include "vendor/imGui/imgui_impl_opengl3.h"
-
 #define WIDTH 1080 //960  // 1080
 #define HEIGHT 1080 //540 // 1080
-
-
 
 int main() {
   Display display(WIDTH, HEIGHT, "Tag-Game");
@@ -54,10 +50,7 @@ int main() {
 
   Renderer renderer;
 
-  ImGui::CreateContext(); // IMGUI STUFF
-  ImGui_ImplGlfw_InitForOpenGL(display.m_window, true); // IMGUI STUFF
-  ImGui_ImplOpenGL3_Init("#version 130"); // IMGUI STUFF
-  ImGui::StyleColorsDark(); // IMGUI STUFF
+  Gui gui(display.GetWindow(), GUI_STYLE::CLASSIC);
 
   glm::vec3 translationA(200.0f, 200.0f, 0);
   glm::vec3 translationB(400.0f, 200.0f, 0);
@@ -68,10 +61,7 @@ int main() {
   while (!display.IsClosed()) {
     renderer.Clear();
 
-    ImGui_ImplOpenGL3_NewFrame(); // IMGUI STUFF
-    ImGui_ImplGlfw_NewFrame(); // IMGUI STUFF
-    ImGui::NewFrame(); // IMGUI STUFF
-    
+    gui.Clear(); 
 
     {
       glm::mat4 model = glm::translate(glm::mat4(1.0f), translationA);
@@ -108,13 +98,7 @@ int main() {
         ImGui::SliderFloat3("translation B", &translationB.x, 0.0f, static_cast<float>(WIDTH)); // IMGUI STUFF
     }
 
-    ImGui::Render(); // IMGUI STUFF
-    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData()); // IMGUI STUFF
-
+    gui.Draw();
     display.Update();
   }
-
-  ImGui_ImplOpenGL3_Shutdown(); // IMGUI STUFF
-  ImGui_ImplGlfw_Shutdown(); // IMGUI STUFF
-  ImGui::DestroyContext(); // IMGUI STUFF
 }
